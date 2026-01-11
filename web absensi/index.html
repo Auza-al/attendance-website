@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 no-print">
+    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+        <p class="text-xs font-bold text-slate-400 uppercase">Total Peserta</p>
+        <h3 id="statTotal" class="text-2xl font-black text-indigo-600">0</h3>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+        <p class="text-xs font-bold text-slate-400 uppercase">Grup A</p>
+        <h3 id="statA" class="text-2xl font-black text-blue-500">0</h3>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+        <p class="text-xs font-bold text-slate-400 uppercase">Grup B</p>
+        <h3 id="statB" class="text-2xl font-black text-purple-500">0</h3>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+        <p class="text-xs font-bold text-slate-400 uppercase">Grup C</p>
+        <h3 id="statCD" class="text-2xl font-black text-emerald-500">0</h3>
+    </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm text-center">
+        <p class="text-xs font-bold text-slate-400 uppercase">Grup D</p>
+        <h3 id="statCD" class="text-2xl font-black text-emerald-500">0</h3>
+    </div>
+</div>
+
+<body class="p-4 md:p-10">
+
+    <div id="printTableArea">
+        <div class="print-header">
+            <div class="print-title">LAPORAN DAFTAR HADIR</div>
+            <p id="printSubtitle"></p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40px;">No</th>
+                    <th>Nama Lengkap</th>
+                    <th>Kelompok</th>
+                    <th>Tanggal</th>
+                    <th>Waktu Masuk</th>
+                </tr>
+            </thead>
+            <tbody id="tableBodyContent"></tbody>
+        </table>
+        <div class="print-footer">
+            Dicetak pada: <span id="printTimestamp"></span>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto no-print">
+        
+        <header class="app-header">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900">Presensi <span class="text-indigo-600">Smart</span></h1>
+                <p class="text-slate-400 font-medium">Rekap kehadiran digital per kelompok</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <button onclick="hapusSemua()" class="btn-delete" title="Hapus Semua">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button onclick="eksporExcel()" class="btn-excel">
+                    <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
+                </button>
+                <button onclick="siapkanDanCetak()" class="btn-print">
+                    <i class="fas fa-print mr-2"></i> Cetak Tabel
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4">
+                <div class="glass-card p-8 border border-slate-100">
+                    <h2 class="text-xl font-bold mb-6 text-slate-800 flex items-center">
+                        <i class="fas fa-user-plus text-indigo-500 mr-3"></i>Data Baru
+                    </h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="input-label">Nama Lengkap</label>
+                            <input type="text" id="nama" class="input-text" placeholder="Ketik nama...">
+                        </div>
+                        <div>
+                            <label class="input-label">Pilih Kelompok</label>
+                            <div class="grid grid-cols-2 gap-3 mt-2">
+                                <button onclick="selectGroup('A')" id="btnA" class="group-opt">Grup A</button>
+                                <button onclick="selectGroup('B')" id="btnB" class="group-opt">Grup B</button>
+                                <button onclick="selectGroup('C')" id="btnC" class="group-opt">Grup C</button>
+                                <button onclick="selectGroup('D')" id="btnD" class="group-opt">Grup D</button>
+                            </div>
+                        </div>
+                        <button onclick="prosesAbsen()" class="btn-submit">
+                            Simpan Kehadiran
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8">
+                <div class="glass-card overflow-hidden min-h-[500px]">
+                    <div class="tab-wrapper">
+                        <button onclick="filterBy('ALL')" id="tabALL" class="tab-btn tab-active">SEMUA</button>
+                        <button onclick="filterBy('A')" id="tabA" class="tab-btn">GRUP A</button>
+                        <button onclick="filterBy('B')" id="tabB" class="tab-btn">GRUP B</button>
+                        <button onclick="filterBy('C')" id="tabC" class="tab-btn">GRUP C</button>
+                        <button onclick="filterBy('D')" id="tabD" class="tab-btn">GRUP D</button>
+                    </div>
+                    <div id="historyDisplay" class="p-6 pt-0 space-y-4 max-h-[500px] overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

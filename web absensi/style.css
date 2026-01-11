@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+body {
+    background: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.glass-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid #f1f5f9;
+}
+
+.input-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.input-text {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-text:focus {
+    border-color: #4f46e5;
+    background: white;
+}
+
+.group-opt {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 2px solid #f1f5f9;
+    font-weight: 700;
+    color: #94a3b8;
+    transition: all 0.3s;
+}
+
+.btn-submit {
+    width: 100%;
+    background: #4f46e5;
+    color: white;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+    transition: all 0.3s;
+}
+
+.btn-submit:active { transform: scale(0.95); }
+
+.tab-wrapper {
+    display: flex;
+    padding: 0.5rem;
+    background: #f1f5f9;
+    margin: 1.5rem;
+    border-radius: 1rem;
+    gap: 0.25rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    color: #64748b;
+    transition: all 0.3s;
+}
+
+.tab-active {
+    background: #4f46e5;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+}
+
+/* Tombol Aksi */
+.btn-delete { background: #fef2f2; color: #ef4444; padding: 0.75rem 1rem; border-radius: 1rem; font-weight: 700; }
+.btn-excel { background: #2563eb; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: 700; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+.btn-print { background: #059669; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: 700; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+
+/* KHUSUS PRINT */
+#printTableArea { display: none; }
+@media print {
+    .no-print { display: none !important; }
+    #printTableArea { display: block !important; width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-family: serif; }
+    th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+    .print-header { text-align: center; margin-bottom: 20px; }
+    .print-title { font-size: 18pt; font-weight: bold; text-decoration: underline; }
+    .print-footer { margin-top: 20px; text-align: right; font-size: 9pt; }
+}
+/* Tombol hapus per baris */
+.btn-delete-item {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #ef4444;
+    background: #fef2f2;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-delete-item:hover {
+    background: #ef4444;
+    color: white;
+}
